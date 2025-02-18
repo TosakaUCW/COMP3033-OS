@@ -60,8 +60,11 @@ ssize_t proc_read(struct file *file, char *usr_buf, size_t count, loff_t *pos)
 		return 0;
 	}
 	completed = 1;
+	
 	// rv = sprintf(buffer, "2330016056∖n");
+	/* print jiffies */
 	rv = snprintf(buffer, sizeof(buffer), "%lu\n", jiffies);
+	
 	/* copies kernel space buffer to user space usr buf */
 	raw_copy_to_user(usr_buf, buffer, rv);
 	return rv;
