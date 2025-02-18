@@ -1,3 +1,9 @@
+/*
+	File: hello.c
+	Author: Bohan YANG
+	Student ID: 2330016056
+	Date: 2025/02/18
+*/
 #include <linux/init.h>
 #include <linux/kernel.h>
 #include <linux/module.h>
@@ -54,7 +60,10 @@ ssize_t proc_read(struct file *file, char *usr_buf, size_t count, loff_t *pos)
 		return 0;
 	}
 	completed = 1;
-	rv = sprintf(buffer, "Hello UICers∖n");
+	
+	/* print my student id */
+	rv = sprintf(buffer, "2330016056∖n");
+	
 	/* copies kernel space buffer to user space usr buf */
 	raw_copy_to_user(usr_buf, buffer, rv);
 	return rv;
@@ -64,6 +73,4 @@ module_init(proc_init);
 module_exit(proc_exit);
 MODULE_LICENSE("GPL");
 MODULE_DESCRIPTION("Hello Module");
-MODULE_AUTHOR("SGG");
-
-
+MODULE_AUTHOR("Bohan YANG");
