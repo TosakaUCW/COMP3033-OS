@@ -15,15 +15,15 @@
 #define BUFFER_SIZE 128
 #define PROC_NAME "seconds"
 
-//for kernel version (5.6.0) or above
-//find your Linux system kernel version:  
+// for kernel version (5.6.0) or above
+// find your Linux system kernel version:
 //$ sudo uname -a   or  $ cat /proc/version
 #define HAVE_PROC_OPS
 
-ssize_t proc_read(struct file *file, char  *usr_buf, size_t count, loff_t *pos);
+ssize_t proc_read(struct file *file, char *usr_buf, size_t count, loff_t *pos);
 
 #ifdef HAVE_PROC_OPS
-static struct proc_ops ops={
+static struct proc_ops ops = {
 	.proc_read = proc_read,
 };
 
@@ -32,7 +32,7 @@ static struct file_operations ops = {
 	.owner = THIS_MODULE,
 	.read = proc_read,
 };
-#endif 
+#endif
 
 static unsigned long start_jiffies;
 
@@ -40,7 +40,7 @@ static unsigned long start_jiffies;
 int proc_init(void)
 {
 	start_jiffies = jiffies;
-	
+
 	/* creates the /proc/hello entry */
 	proc_create(PROC_NAME, 0666, NULL, &ops);
 	return 0;
@@ -58,17 +58,17 @@ ssize_t proc_read(struct file *file, char *usr_buf, size_t count, loff_t *pos)
 	int rv = 0;
 	char buffer[BUFFER_SIZE];
 	static int completed = 0;
-	if (completed) {
+	if (completed)
+	{
 		completed = 0;
 		return 0;
 	}
 	completed = 1;
 	// rv = sprintf(buffer, "2330016056∖n");
-	
+
 	unsigned long elapsed_jiffies = jiffies - start_jiffies;
 	unsigned long elapsed_seconds = elapsed_jiffies / HZ;
-	
-	
+
 	rv = snprintf(buffer, sizeof(buffer), "%lu\n", elapsed_seconds);
 	/* copies kernel space buffer to user space usr buf */
 	raw_copy_to_user(usr_buf, buffer, rv);
@@ -80,5 +80,3 @@ module_exit(proc_exit);
 MODULE_LICENSE("GPL");
 MODULE_DESCRIPTION("Seconds Module");
 MODULE_AUTHOR("Bohan YANG");
-
-

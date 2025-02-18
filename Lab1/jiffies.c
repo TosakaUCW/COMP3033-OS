@@ -15,15 +15,15 @@
 #define BUFFER_SIZE 128
 #define PROC_NAME "jiffies"
 
-//for kernel version (5.6.0) or above
-//find your Linux system kernel version:  
+// for kernel version (5.6.0) or above
+// find your Linux system kernel version:
 //$ sudo uname -a   or  $ cat /proc/version
 #define HAVE_PROC_OPS
 
-ssize_t proc_read(struct file *file, char  *usr_buf, size_t count, loff_t *pos);
+ssize_t proc_read(struct file *file, char *usr_buf, size_t count, loff_t *pos);
 
 #ifdef HAVE_PROC_OPS
-static struct proc_ops ops={
+static struct proc_ops ops = {
 	.proc_read = proc_read,
 };
 
@@ -32,7 +32,7 @@ static struct file_operations ops = {
 	.owner = THIS_MODULE,
 	.read = proc_read,
 };
-#endif 
+#endif
 
 /* This function is called when the module is loaded. */
 int proc_init(void)
@@ -48,14 +48,14 @@ void proc_exit(void)
 	remove_proc_entry(PROC_NAME, NULL);
 }
 
-
 /* This function is called each time /proc/hello is read */
 ssize_t proc_read(struct file *file, char *usr_buf, size_t count, loff_t *pos)
 {
 	int rv = 0;
 	char buffer[BUFFER_SIZE];
 	static int completed = 0;
-	if (completed) {
+	if (completed)
+	{
 		completed = 0;
 		return 0;
 	}
@@ -72,5 +72,3 @@ module_exit(proc_exit);
 MODULE_LICENSE("GPL");
 MODULE_DESCRIPTION("Jiffies Module");
 MODULE_AUTHOR("Bohan YANG");
-
-
