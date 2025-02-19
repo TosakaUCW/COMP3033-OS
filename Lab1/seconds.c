@@ -65,8 +65,10 @@ ssize_t proc_read(struct file *file, char *usr_buf, size_t count, loff_t *pos)
 	}
 	completed = 1;
 	
-
+	/* elpsed_jiffies = now - start */
 	unsigned long elapsed_jiffies = jiffies - start_jiffies;
+
+	/* seconds = jiffies / HZ */
 	unsigned long elapsed_seconds = elapsed_jiffies / HZ;
 
 	/* print elapsed_seconds */
