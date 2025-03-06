@@ -1,8 +1,8 @@
 /*
  * @Author: Bohan YANG
  * @Student ID: 2330016056
- * @Date: 2025-03-06 10:12:47
- * @FilePath: /tosaka/COMP3033-OS/Lab2/e2_t1_2330016056.c
+ * @Date: 2025-03-06 14:40:48
+ * @FilePath: /tosaka/COMP3033-OS/Lab2/e2_t2_2330016056.c
  */
 #include <stdio.h>
 #include <unistd.h>
