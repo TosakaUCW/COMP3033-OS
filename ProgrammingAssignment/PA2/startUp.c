@@ -1,10 +1,10 @@
 ﻿/****************************************************************************
  *                                                                          *
- * Author		:  	                                                        *
+ * Author		:  	Bohan YANG                                              *
  *                                                                          *
- * Studdent ID	: Console mode (command line) program.                      *
+ * Studdent ID	:   2330016506                                              *
  *                                                                          *
- * Date			:                                             			    *
+ * Date			:   2025 / 04/ 15                               			*
  *                                                         					*
  * Purpose		:                                                           *
  *                                                         					*
