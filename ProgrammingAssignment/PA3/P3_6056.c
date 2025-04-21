@@ -5,11 +5,20 @@
 #include <unistd.h>
 #include <signal.h>
 
+#include <semaphore.h>
+
 #define TRUE 1
 
 void *AAfunc(void *param);
 void *namefunc(void *param);
 void *studentIDfunc(void *param);
+
+/* semaphores to enforce ordering:
+ *   semID_done   signals that all student‑ID lines are printed
+ *   semName_done signals that the name line is printed
+ */
+sem_t semID_done;
+sem_t semName_done;
 
 int main(int argc, char *argv[]) {
 	int i, scope;
@@ -19,30 +28,55 @@ int main(int argc, char *argv[]) {
 	
 	/* get the default attributes */
 	pthread_attr_init(&attr);
+	
+	/* initialize semaphores to 0 (locked) */
+    sem_init(&semID_done, 0, 0);
+    sem_init(&semName_done, 0, 0);
 
 	/* create 3 threads */
 	pthread_create(&threadID_id, &attr, studentIDfunc, &threadID_id);
 	pthread_create(&threadName_id, &attr, namefunc, &threadName_id);
 	pthread_create(&threadAA_id, &attr, AAfunc, &threadAA_id);
 	
-    printf("Program is done\n");
 	/* Now join on each thread */
 	pthread_join(threadID_id, NULL);
 	pthread_join(threadName_id, NULL);
 	pthread_join(threadAA_id, NULL);
+	
+    printf("Program is done\n");
+	
+	/* clean up */
+    sem_destroy(&semID_done);
+    sem_destroy(&semName_done);
+	
 	return 0;
 }
 void *studentIDfunc(void *param) {
 	for (int i = 0; i < 10; i++)
-	   printf("%d: My student ID is 222222222222\n", i);
+	   printf("%d: My student ID is 2330016056\n", i);
+	   
+	/* signal that all ID lines are done */
+    sem_post(&semID_done);
+	
 	pthread_exit(0);
 }
 void *namefunc(void *param) {
-	printf("My name is Judy\n");
+	/* wait until student‑ID lines are done */
+    sem_wait(&semID_done);
+	
+	printf("My name is Bohan YANG\n");
+	
+	/* signal that the name line is done */
+    sem_post(&semName_done);
+	
 	pthread_exit(0);
 }
 void *AAfunc(void *param) {
-	printf("My AA is HOLY ONE\n");	
+	/* wait until the name line is done */
+	// sem_wait(&semID_done);
+    sem_wait(&semName_done);
+	
+	printf("My AA is CiCi Chong CHEN\n");	
 	pthread_exit(0);
 }
 
@@ -110,5 +144,17 @@ My name is Judy
 
 /***
  * Output of Task2:
-
+0: My student ID is 2330016056
+1: My student ID is 2330016056
+2: My student ID is 2330016056
+3: My student ID is 2330016056
+4: My student ID is 2330016056
+5: My student ID is 2330016056
+6: My student ID is 2330016056
+7: My student ID is 2330016056
+8: My student ID is 2330016056
+9: My student ID is 2330016056
+My name is Bohan YANG
+My AA is CiCi Chong CHEN
+Program is done
 */
