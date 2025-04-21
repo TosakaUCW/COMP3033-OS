@@ -49,22 +49,63 @@ void *AAfunc(void *param) {
 
 /***
  * Task1 output of first time:
-
+0: My student ID is 222222222222
+1: My student ID is 222222222222
+2: My student ID is 222222222222
+My name is Judy
+My AA is HOLY ONE
+Program is done
+3: My student ID is 222222222222
+4: My student ID is 222222222222
+5: My student ID is 222222222222
+6: My student ID is 222222222222
+7: My student ID is 222222222222
+8: My student ID is 222222222222
+9: My student ID is 222222222222
 */
 
 /***
  * Task1 output of second time:
-
+Program is done
+My name is Judy
+My AA is HOLY ONE
+0: My student ID is 222222222222
+1: My student ID is 222222222222
+2: My student ID is 222222222222
+3: My student ID is 222222222222
+4: My student ID is 222222222222
+5: My student ID is 222222222222
+6: My student ID is 222222222222
+7: My student ID is 222222222222
+8: My student ID is 222222222222
+9: My student ID is 222222222222
 */
 
 /***
  * Task1 output of third time:
-
+Program is done
+0: My student ID is 222222222222
+My AA is HOLY ONE
+1: My student ID is 222222222222
+2: My student ID is 222222222222
+3: My student ID is 222222222222
+4: My student ID is 222222222222
+5: My student ID is 222222222222
+6: My student ID is 222222222222
+7: My student ID is 222222222222
+8: My student ID is 222222222222
+9: My student ID is 222222222222
+My name is Judy
 */
 
 /***
  * Task1 Explain why:
- 
+	The reason for the different output orders in each run of the program is due to the non-deterministic nature of thread scheduling in multi-threaded programs. 
+	The threads studentIDfunc, namefunc, and AAfunc are executed concurrently, and the operating system's thread scheduler determines when each thread runs. 
+	Since the scheduler can assign CPU time to each thread at different moments during each execution, the order in which the threads are executed—and therefore the output—can vary. 
+	Even though the threads are created in a specific order, the operating system may start and run them in a different sequence each time. 
+	This leads to different output orders across multiple runs. 
+	Additionally, if the value of i in studentIDfunc is increased, the interleaving of thread outputs becomes even more complex, leading to even less predictable behavior.
 */
 
 /***
